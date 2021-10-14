@@ -1,0 +1,16 @@
+{
+  "reporterEnabled": "mochawesome, mocha-junit-reporter",
+  "mochawesomeReporterOptions": {
+    "reportDir": "cypress/test-reports/mocha",
+    "quiet": true,
+    "charts": true,
+    "overwrite": false,
+    "html": false,
+    "json": true
+  },
+  "mochaJunitReportReporterOptions": {
+    "mochaFile": "cypress/test-reports/junit-[hash].xml",
+    "testsuitesTitle": "Plutora Functional Tests",
+    "toConsole": true
+  }
+}

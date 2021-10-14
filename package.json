@@ -2,13 +2,14 @@
   "name": "tests-functional",
   "version": "1.0.0",
   "description": "Plutora API and UI functional tests created using Cypress framework",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gagneet/tests-cypress.git"
+    "url": "git+https://bitbucket.org/plutora/tests-functional.git"
   },
   "keywords": [
     "plutora",
@@ -20,10 +21,67 @@
   "author": "gagneet.singh@plutora.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gagneet/tests-cypress/issues"
+    "url": "https://bitbucket.org/plutora/tests-functional/issues"
   },
-  "homepage": "https://github.com/gagneet/tests-cypress#readme",
+  "homepage": "https://bitbucket.org/plutora/tests-functional#readme",
   "devDependencies": {
-    "cypress": "^8.6.0"
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@bahmutov/add-typescript-to-cypress": "2.1.2",
+    "@bahmutov/cy-api": "^1.5.0",
+    "@bahmutov/print-env": "^2.1.2",
+    "@cypress/browserify-preprocessor": "^3.0.1",
+    "@cypress/code-coverage": "^3.9.10",
+    "@cypress/webpack-preprocessor": "^5.9.1",
+    "@percy/cypress": "^3.1.1",
+    "@testing-library/cypress": "^7.0.7",
+    "@types/faker": "^5.5.8",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-istanbul": "^6.0.0",
+    "cypress": "^8.6.0",
+    "cypress-audit": "^0.0.5",
+    "cypress-axe": "^0.13.0",
+    "cypress-cucumber-preprocessor": "^4.2.0",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-localstorage-commands": "^1.5.0",
+    "cypress-mailosaur": "^2.3.3",
+    "cypress-multi-reporters": "^1.5.0",
+    "cypress-tags": "^0.2.0",
+    "cypress-wait-until": "^1.7.1",
+    "dayjs": "^1.10.5",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-cypress": "^2.11.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "faker": "^5.5.3",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.1.2",
+    "mochawesome": "^6.3.1",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0",
+    "pathmodify": "^0.5.0",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1",
+    "typescript": "^4.4.3",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "e2e": "cypress run --spec 'cypress/tests/e2e-legacy/**/*.js,cypress/tests/e2e-legacy/*.ts'",
+    "e2e:chrome": "cypress run --browser chrome --spec 'cypress/tests/e2e-legacy/**/*.js,cypress/tests/e2e-legacy/*.ts'",
+    "tests:record": "cypress run --record",
+    "tests:ci": "cypress run --env 'configFile=%host%' --spec 'cypress/tests/**/*.js,cypress/tests/**/*.ts'",
+    "start": "http-server app -c-1",
+    "start:ci": "http-server app -c-1 --silent"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": "./cypress/tests/e2e-legacy/release/BDD",
+    "commonPath": "./cypress/tests/e2e-legacy/release/BDD"
   }
 }

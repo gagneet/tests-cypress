@@ -1,0 +1,369 @@
+# image: cypress/base:14.16.0
+image: cypress/included:8.5.0
+options:
+  max-time: 120
+
+definitions:
+  caches:
+    npm: $HOME/.npm
+    cypress: $HOME/.cache/Cypress
+
+  # job definition for running all (e2e, integration, visual) tests in parallel
+  steps:
+    - step: &tests
+        name: Run all tests
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/$TESTS
+          # HOST, TESTS, & BROWSER (e.g. chrome, electron, firefox) are all configurable under Repository variables
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-api
+        name: Run api tests
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/integration-legacy/$TESTS
+          # HOST, TESTS, & BROWSER (e.g. chrome, electron, firefox) are all configurable under Repository variables
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e
+        name: Run e2e tests
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/$TESTS
+          # HOST, TESTS, & BROWSER (e.g. chrome, electron, firefox) are all configurable under Repository variables
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e-customization
+        name: Run e2e tests - customization
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/customization/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e-dashboard
+        name: Run e2e tests - dashboard
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/dashboard/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e-deployment
+        name: Run e2e tests - deployment
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/deployment/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+    - step: &tests-e2e-environment
+        name: Run e2e tests - environment
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/environment/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e-pir
+        name: Run e2e tests - pir
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/pir/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e-release
+        name: Run e2e tests - release
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/release/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+    - step: &tests-e2e-settings
+        name: Run e2e tests - settings
+        caches:
+          - npm
+          - node
+          - cypress
+        script:
+          # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+          # (We need it blank so it has ability to run the full regression suite)
+          # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+          - cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+        artifacts: # store any generates images and videos as artifacts
+          - cypress/screenshots/**
+          - cypress/videos/**
+          - cypress/test-reports/*.xml
+
+pipelines:
+  default:
+  - step:
+      name: Prepare dependencies
+      caches:
+        - npm
+        - cypress
+        - node
+      script:
+        - npm ci
+        - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+        # - npm audit # check security vulnerabilities of npm packages
+        # - export PERCY_TOKEN=$PERCY_TOKEN # stored percy token as bitbucket pipeline variable
+        - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+        - echo Running tests on $HOST
+  - parallel:
+    - step: *tests-api
+    - step: *tests-e2e-customization
+    - step: *tests-e2e-dashboard
+    - step: *tests-e2e-deployment
+    - step: *tests-e2e-environment
+    - step: *tests-e2e-pir
+    - step: *tests-e2e-release
+    - step: *tests-e2e-settings
+    # add more if there are new folders (e.g. initiative, planning, etc.)
+  custom:
+    run-api-tests: # run only api tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-api
+
+    run-e2e-tests: # run only e2e tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e
+
+    run-e2e-customization-tests: # run only e2e customization tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-customization
+
+    run-e2e-dashboard-tests: # run only e2e dashboard tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-dashboard
+
+    run-e2e-deployment-tests: # run only e2e deployment tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-deployment
+
+    run-e2e-environment-tests: # run only e2e environment tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-environment
+
+    run-e2e-pir-tests: # run only e2e pir tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-pir
+
+    run-e2e-release-tests: # run only e2e release tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-release
+
+    run-e2e-settings-tests: # run only e2e settings tests
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - step: *tests-e2e-settings
+
+    run-tests-on-sit: # run tests on sit
+      - step:
+          name: Prepare dependencies
+          caches:
+            - npm
+            - cypress
+            - node
+          script:
+            - npm ci
+            - npx @bahmutov/print-env BITBUCKET # let's see the environment variables right away
+            - export CYPRESS_MAILOSAUR_API_KEY=$CYPRESS_MAILOSAUR_API_KEY # stored mailosaur key as bitbucket pipeline variable
+            - echo Running tests on $HOST
+      - parallel:
+        - step:
+            name: Run all api tests on sit
+            caches:
+              - npm
+              - node
+              - cypress
+            script:
+              # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+              # (We need it blank so it has ability to run the full regression suite)
+              # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+              - cypress_version=demo.plutora.org npx cypress run --spec cypress/tests/integration-legacy/$TESTS
+            artifacts: # store any generates images and videos as artifacts
+              - cypress/screenshots/**
+              - cypress/videos/**
+              - cypress/test-reports/*.xml
+        - step:
+            name: Run all e2e tests on sit
+            caches:
+              - npm
+              - node
+              - cypress
+            script:
+              # Removing tagging for now on CI as having it blank does not seem to work (e.g. CYPRESS_INCLUDE_TAGS='') - this works on local machine though
+              # (We need it blank so it has ability to run the full regression suite)
+              # - CYPRESS_INCLUDE_TAGS=$TAG cypress_version=$HOST npx cypress run --browser $BROWSER --spec cypress/tests/e2e-legacy/settings/$TESTS
+              - cypress_version=demo.plutora.org npx cypress run --spec cypress/tests/e2e-legacy/$TESTS
+            artifacts: # store any generates images and videos as artifacts
+              - cypress/screenshots/**
+              - cypress/videos/**
+              - cypress/test-reports/*.xml

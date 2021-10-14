@@ -1,0 +1,20 @@
+{
+  "string": 0,
+  "integer": 1,
+  "dateTime": 2,
+  "timeSpan": 3,
+  "preset": 4,
+  "suggestion": 5,
+  "workflow": 6,
+  "cascadingLookUp": 7,
+  "multilineString": 8,
+  "multiSelect": 9,
+  "double": 10,
+  "guid": 11,
+  "type": ["Normal"],
+  "estimation": ["PT2H", "PT4H", "PT6H", "PT8H", "PT10H"],
+  "spent": ["PT2H", "PT4H", "PT6H", "PT8H", "PT10H"],
+  "status": ["Approved", "In Progress", "Closed", "Complete"],
+  "priority": ["Blocker", "Critical", "High", "Medium", "Low"],
+  "workType": ["Feature", "Tech Debt", "Risk"]
+}
